@@ -1,0 +1,309 @@
+@import url(https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap);
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+.no-transition {
+    transition: none !important;
+}
+
+:root {
+    --bg:#f6f7fb;
+    --surface:#ffffff;
+    --text: #18191a;
+    --muted: rgba(24, 25, 26, 0.7);
+
+    --accent: #2d9cdb;
+    --accent-2: #56ccf2;
+
+    --danger: #e74c3c;
+
+    --shadow: 0 15px 25px rgba(0, 0, 0, 0.08), 0 25px 45px rgba(0, 0, 0, 0.08);
+    --ring: 0 0 0 4px rgba(45, 156, 219, 0.25);
+
+    --clock-size: clamp(260px, 72vw, 400px);
+    --clock-border: clamp(7px, 2vw, 12px);
+    --clock-inner-ring: clamp(8px, 2.2vw, 10px);
+    --clock-inset: clamp(14px, 4vw, 20px);
+}
+
+body[data-theme="ocean"] {
+    --accent: #2d9cdb;
+    --accent-2: #56ccf2;
+    --ring: 0 0 0 4px rgba(45, 156, 219, 0.25);
+}
+body[data-theme="sunset"] {
+    --accent: #f2994a;
+    --accent-2: #f2c94c;
+    --ring: 0 0 0 4px rgba(242, 153, 74, 0.25);
+}
+
+body[data-theme="forest"] {
+    --accent: #27ae60;
+    --accent-2: #6fcf97;
+    --ring: 0 0 0 4px rgba(39, 174, 96, 0.25);
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    color: var(--text);
+    background: var(--bg);
+    position: relative;
+    overflow: hidden;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+   pointer-events: none;
+   background: radial-gradient(900px 420px at 15% 10%, rgba(86, 204, 242, 0.30), transparent 60%), radial-gradient(900px 420px at 85% 15%, rgba(45, 156, 219, 0.25), transparent 60%), radial-gradient(900px 420px at 50% 95%, rgba(231, 76, 60, 0.12), transparent 60%);
+   filter: saturate(1.1);
+}
+
+body.dark {
+    --bg:#111213;
+    --surface:#18191a;
+    --text: #ffffff;
+    --muted: rgba(255, 255, 255, 0.75);
+    --shadow: 0 15px 30px rgba(0, 0, 0, 0.35), 0 35px 60px rgba(0, 0, 0, 0.35);
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 34px;
+    padding: 28px 18px;
+    width: min(900px, 100%);
+}
+
+.topbar {
+    width: min(760px, 100%);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 16px;
+    border-radius: 16px;
+    background: color-mix(in oklab, var(--surface) 80%, transparent);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(10px);
+    position: relative;
+    z-index: 1;
+}
+
+.readout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 8px 12px;
+    border-radius: 14px;
+    background: color-mix(in oklab, var(--surface) 70%, transparent);
+    border: 1px solid color-mix(in oklab, var(--text) 14%, transparent);
+    min-width: 150px;
+}
+
+.readout__time {
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.6px;
+    font-weight: 650;
+    font-size: 14px;
+}
+
+.readout__date {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.brand {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+}
+.brand__name {
+    font-weight: 650;
+    font-size: 18px;
+    letter-spacing: 0.2px;
+}
+.brand-tag {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.theme-switch {
+    display: flex;
+    align-items: center;
+    gap: 8px; 
+    padding: 6px;
+    border-radius: 14px;
+    background: color-mix(in oklab, var(--surface) 65%, transparent);
+    border: 1px solid color-mix(in oklab, var(--text) 14%, transparent);
+}
+.theme-btn {
+    appearance: none;
+    border: 1px solid transparent;
+    padding: 8px 10px;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--text);
+    font-size: 13px;
+    cursor: pointer;
+    transition: transform 120ms ease, background 160ms ease, border-color 160ms ease;
+}
+
+.theme-btn:hover {
+    background: color-mix(in oklab, var(--surface) 75%, transparent);
+    border-color: color-mix(in oklab, var(--textt) 16%, transparent);
+    transform: translateY(-1px);
+}
+
+.theme-btn.is-active {
+    background: linear-gradient(135deg, color-mix(in oklab, var(--accent) 88%, transparent), color-mix(in oklab, var(--accent-2) 88%, transparent));
+    border-color: color-mix(in oklab, var(--text) 10%, transparent);
+    color: #0b0c0d;
+}
+
+.theme-btn:focus-visible {
+    outline: none;
+    box-shadow: var(--ring);
+}
+
+.container .clock {
+    display: flex;
+    height: var(--clock-size);
+    width: var(--clock-size);
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    background: color-mix(in oklab, var(--surface) 88%, transparent);
+    box-shadow: var(--shadow);
+    position: relative;
+    z-index: 1;
+    border: var(--clock-border) solid color-mix(in oklab, var(--accent) 55%, var(--text));
+    outline: 2px solid color-mix(in oklab, var(--text) 12%, transparent);
+    outline-offset: 4px;
+}
+
+.container .clock::after {
+    content: '';
+    position: absolute;
+    inset: var(--clock-inner-ring);
+    border-radius: 50%;
+    pointer-events: none;
+    border: 1px solid color-mix(in oklab, var(--text) 10%, transparent);
+    opacity: 0.9;
+}
+
+.clock label {
+    position: absolute;
+    inset: var(--clock-inset);
+    text-align: center;
+    transform: rotate(calc(var(--i) * (360deg / 12)));
+}
+
+.clock label span {
+    display: inline-block;
+    transform: rotate(calc(var(--i) * (-360deg / 12)));
+    font-size: clamp(18px, 5.5vw, 30px);
+    color: var(--text);
+    font-weight: 600;
+}
+
+.container .indicator {
+    position: absolute;
+    height: clamp(8px, 2.2vw, 10px);
+    width: clamp(8px, 2.2vw, 10px);
+    display: flex;
+    justify-content: center;
+}
+
+.indicator::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: var(--text);
+    border-radius: 50%;
+    z-index: 100;
+    border: clamp(3px, 1vw, 4px) solid var(--accent);
+}
+
+.hand-second {
+    position: absolute;
+    height: calc(var(--clock-size) * 0.325);
+    width: clamp(3px, 0.9vw, 4px);
+    bottom: 0;
+    border-radius: 25px;
+    transform-origin: bottom;
+    background: var(--accent);
+    transition: transform 120ms linear;
+}
+
+.hand-minute {
+    position: absolute;
+    height: calc(var(--clock-size) * 0.30);
+    width: clamp(4px, 1.1vw, 5px);
+    bottom: 0;
+    border-radius: 25px;
+    transform-origin: bottom;
+    background: var(--text);
+    transition: transform 120ms linear;
+}
+
+.hand-hour {
+    position: absolute;
+    background: var(--text);
+    width: clamp(6px, 1.6vw, 8px);
+    height: calc(var(--clock-size) * 0.25);
+    bottom: 0;
+    border-radius: 25px;
+    transform-origin: bottom;
+    transition: transform 120ms linear;
+}
+
+.mode-switch {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 400;
+    display: inline-block;
+    color: var(--surface);
+    background: linear-gradient(135deg, color-mix(in oklab, var(--text) 92%, var(--accent)), color-mix(in oklab, var(--text) 92%, var(--accent-2)));
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    user-select: none;
+}
+
+.mode-switch:focus-visible {
+    outline: none;
+    box-shadow: var(--ring);
+}
+
+@media (max-width: 520px) {
+    .topbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .readout {
+        align-items: flex-start;
+        min-width: unset;
+        width: 100%;
+    }
+        .controls {
+            justify-content: space-between;
+        }
+}
